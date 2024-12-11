@@ -143,47 +143,6 @@ def generate_makefile_content():
     Returns:
         str: Content of the Makefile.
     """
-    makefile_content = """# Compiler
-CC = gcc
-CFLAGS = -Wall -Iinclude
-
-# Directories
-SRC_DIR = src
-BUILD_DIR = build
-TEST_DIR = tests
-
-# Source files and object files
-SRC_FILES = $(wildcard $(SRC_DIR)/*.c)
-OBJ_FILES = $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRC_FILES))
-TEST_FILES = $(wildcard $(TEST_DIR)/*.c)
-
-# Output binary
-TARGET = $(BUILD_DIR)/my_c_project
-
-# Build target
-$(TARGET): $(OBJ_FILES)
-\t$(CC) $(CFLAGS) -o $@ $^
-
-# Compile source files into object files
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
-\t$(CC) $(CFLAGS) -c $< -o $@
-
-# Create build directory if it doesn't exist
-$(BUILD_DIR):
-\tmkdir -p $(BUILD_DIR)
-
-# Run tests
-test: $(TARGET)
-\t@for test_file in $(TEST_FILES); do \\
-\t\t$(CC) $(CFLAGS) $$test_file $(OBJ_FILES) -o $(BUILD_DIR)/$$(basename $$test_file); \\
-\t\t./$(BUILD_DIR)/$$(basename $$test_file); \\
-\tdone
-
-# Clean up build artifacts
-clean:
-\trm -rf $(BUILD_DIR)
-
-# Phony targets
-.PHONY: all test clean
-"""
+    with open('docs/mkfile.txt', 'r') as fp:
+        makefile_content = fp.read()
     return makefile_content
